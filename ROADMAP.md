@@ -30,11 +30,36 @@ hình.
 
 Chưa có ý tưởng cụ thể — ghi vào đây khi anh Viên chốt.
 
-## Vận hành khi public (nếu sau này đổi ý)
+## Kênh phát hành & kiểm tra bản mới
 
-Hiện tại: giữ repo private, phát hành thủ công (tự tải `installer/Output/*.exe` và gửi/host chỗ
-khác). Tính năng tự kiểm tra bản mới trong app (`CheckForUpdateAsync` gọi GitHub Releases API)
-đang **không hoạt động** vì gọi API ẩn danh vào repo private luôn trả 404 — không lỗi, chỉ im
-lặng không tìm thấy gì. Nếu sau này public repo, tính năng này sẽ tự chạy đúng không cần sửa gì
-thêm. Nếu muốn tính năng này chạy mà vẫn giữ repo private, cần hướng khác (vd. host 1 file JSON
-version nhỏ ở nơi public riêng để app check, tách khỏi GitHub API).
+Trạng thái hiện tại (từ v1.1.1): repo `KingIMG` đang **public** trên GitHub, tính năng tự kiểm
+tra bản mới (`CheckForUpdateAsync` trong `KingImgApi.cs`) gọi thẳng GitHub Releases API — đang
+hoạt động bình thường, banner trỏ thẳng file cài đặt (không qua trang Release).
+
+**Đã quyết định (2026-09-11), chưa triển khai:** chuyển sang tự host bản cài + file version,
+để source code có thể về lại private mà vẫn giữ được tính năng tự báo bản mới, không phụ thuộc
+GitHub phải public cả repo mới dùng được.
+
+Hướng đã chốt — tự host trên **hosting Hostinger sẵn có của anh Viên** (gói Premium Web Hosting
+đang dùng — đủ dung lượng/tính năng cho việc này, không cần nâng cấp gói), qua **1 subdomain
+riêng, tách khỏi website brand hiện tại** (chưa đặt tên cụ thể — anh Viên sẽ tách tên miền,
+nghiên cứu tiếp trước khi triển khai). Cơ chế dự kiến:
+
+- Upload `version.json` (dạng `{"version":"x.x.x","url":"https://<subdomain>/KingImgSetup-x.x.x.exe"}`)
+  cùng file cài đặt `.exe` lên hosting qua File Manager/FTP.
+- Sửa `CheckForUpdateAsync()` trong `KingImgApi.cs` để đọc `version.json` này thay vì gọi GitHub
+  Releases API.
+- Sau khi hoạt động ổn định, có thể chuyển `KingIMG` về lại private (không bắt buộc, tuỳ anh
+  Viên quyết ở thời điểm đó).
+
+Các phương án khác đã cân nhắc trong buổi bàn, không chọn (nhưng vẫn khả thi nếu hướng self-host
+gặp vướng mắc):
+- **Repo "vỏ" public riêng trên GitHub** (`KingIMG-releases`, chỉ chứa Release, không chứa
+  source) — miễn phí, ít việc nhất, nhưng vẫn phụ thuộc hạ tầng GitHub.
+- **Thư viện auto-update chuyên dụng** (Velopack, NetSparkle, ClickOnce) — mạnh hơn (tự tải, tự
+  cài, tự khởi động lại) nhưng tốn công tích hợp hơn nhiều, chưa cần ở quy mô hiện tại.
+
+Khi bắt tay triển khai, đọc lại `_system/conventions/publish-software.md` mục 5–6 để không lặp
+lại các cân nhắc đã ghi (fail êm khi không có mạng/chưa có version.json, link tải thẳng file
+không qua trang web trung gian, v.v.) — và cập nhật lại mục 5–6 của file đó nếu cách làm thực tế
+khác với những gì đang ghi (hiện ghi theo hướng GitHub Releases).
