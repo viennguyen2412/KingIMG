@@ -19,3 +19,8 @@ Bản đầu tiên, dùng nội bộ. Resize & xuất ảnh theo preset, chèn t
 
 - Sửa lỗi 3 nút ở "01 — Quản lý mẫu chèn text" (Xuất preset/Nhập preset/Xuất danh sách mẫu)
   dính sát nhau khi xuống dòng ở cột trái hẹp — thêm `flex-wrap` + khoảng cách dòng.
+
+## 1.1.2 — 2026-09-11
+
+- Banner báo bản mới: bấm "Tải bản mới" giờ tải thẳng file cài đặt, không còn mở qua trang
+  Release trên GitHub nữa.

@@ -65,11 +65,17 @@ public sealed class KingImgApi
                 && Version.TryParse(GetAppVersion(), out var currentVer)
                 && latestVer > currentVer;
 
+            var installerAsset = release?["assets"]?.AsArray()
+                .Select(asset => asset?["browser_download_url"]?.GetValue<string>())
+                .FirstOrDefault(assetUrl => assetUrl is not null && assetUrl.EndsWith(".exe", StringComparison.OrdinalIgnoreCase));
+
             var result = new JsonObject
             {
                 ["hasUpdate"] = hasUpdate,
                 ["latestVersion"] = latest,
-                ["url"] = release?["html_url"]?.GetValue<string>() ?? $"https://github.com/viennguyen2412/KingIMG/releases/tag/{tag}"
+                ["url"] = installerAsset
+                    ?? release?["html_url"]?.GetValue<string>()
+                    ?? $"https://github.com/viennguyen2412/KingIMG/releases/tag/{tag}"
             };
             return result.ToJsonString();
         }
