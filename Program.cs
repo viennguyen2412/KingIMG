@@ -14,8 +14,16 @@ internal static class Program
     {
         SetCurrentProcessExplicitAppUserModelID("com.kingimg.app");
 
-        Application.ThreadException += (_, e) => StartupLog.Write("ThreadException", e.Exception);
-        AppDomain.CurrentDomain.UnhandledException += (_, e) => StartupLog.Write("UnhandledException", e.ExceptionObject as Exception);
+        Application.ThreadException += (_, e) =>
+        {
+            StartupLog.Write("ThreadException", e.Exception);
+            ShowCrashDialog();
+        };
+        AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+        {
+            StartupLog.Write("UnhandledException", e.ExceptionObject as Exception);
+            ShowCrashDialog();
+        };
 
         StartupLog.Write("app starting");
         ApplicationConfiguration.Initialize();
@@ -64,6 +72,22 @@ internal static class Program
 
         StartupLog.Write("createWindow");
         Application.Run(new MainForm());
+    }
+
+    private static void ShowCrashDialog()
+    {
+        try
+        {
+            MessageBox.Show(
+                $"King Img gặp lỗi và cần đóng.\n\nChi tiết lỗi đã được ghi lại tại:\n{StartupLog.LogPath}\n\nCó thể gửi file này để kiểm tra nguyên nhân.",
+                "King Img",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+        catch
+        {
+            // Không để việc hiện hộp thoại lỗi gây thêm lỗi.
+        }
     }
 
     private sealed record StartupBatchArguments(string? CsvPath, string? TemplatePackagePath)

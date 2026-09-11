@@ -8,4 +8,5 @@ obj/
 *.tmp
 node_modules/
 dist/
+installer/Output/
 

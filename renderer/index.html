@@ -15,6 +15,12 @@
       <div class="app-title">King Img</div>
       <div class="app-tagline">kéo ảnh → chọn preset → xuất file</div>
     </div>
+    <button class="about-trigger" id="aboutBtn" type="button">v<span id="appVersionLabel">—</span></button>
+  </div>
+  <div class="update-banner hidden" id="updateBanner">
+    <span>Có bản mới <b id="updateVersionLabel"></b> đã ra mắt.</span>
+    <a href="#" id="updateLink">Xem chi tiết</a>
+    <button class="update-dismiss" id="updateDismissBtn" type="button" aria-label="Đóng">×</button>
   </div>
   <div class="demo-banner">Ảnh được xử lý trực tiếp trên máy anh, không upload đi đâu cả. Có 2 phần: <b>01 Resize &amp; Export</b> và <b>02 Chèn Text</b> theo mẫu có sẵn.</div>
 
@@ -25,6 +31,9 @@
   </div>
 
   <div id="tab1view" class="tabview">
+  <div class="two-col">
+
+  <div class="col-left">
 
   <!-- STEP 1: UPLOAD -->
 
@@ -42,8 +51,13 @@
   <!-- STEP 2: PRESETS -->
   <section>
     <p class="step-label">02 — Chọn preset xuất</p>
-    <div class="preset-grid" id="presetGrid"></div>
+    <div class="preset-grid compact" id="presetGrid"></div>
   </section>
+
+  </div>
+  <!-- end col-left -->
+
+  <div class="col-right">
 
   <!-- STEP 3: CROP -->
   <section id="cropSection">
@@ -52,7 +66,7 @@
   </section>
 
   <!-- STEP 4: EXPORT -->
-  <section>
+  <section class="sticky-export">
     <p class="step-label">04 — Xuất file</p>
     <button class="export-btn" id="exportBtn">Xuất ảnh</button>
     <p class="export-helper" id="exportHelper"></p>
@@ -63,9 +77,17 @@
   </section>
 
   </div>
+  <!-- end col-right -->
+
+  </div>
+  <!-- end two-col -->
+  </div>
   <!-- end tab1view -->
 
   <div id="tab2view" class="tabview hidden">
+  <div class="two-col">
+
+  <div class="col-left">
 
   <!-- T2 STEP 1: TEMPLATES -->
   <section>
@@ -76,25 +98,15 @@
       <button class="btn" id="exportTplListBtn" type="button">Xuất danh sách mẫu</button>
     </div>
     <div id="templateGridWrap">
-      <div class="preset-grid" id="templateGrid"></div>
+      <div class="preset-grid compact" id="templateGrid"></div>
     </div>
     <div id="templateEditorWrap" class="hidden"></div>
   </section>
 
-  <!-- T2 STEP 2: IMAGES + EDIT -->
+  <!-- T2 BATCH CSV -->
   <section>
-    <p class="step-label">02 — Thêm ảnh & chèn text</p>
-    <div class="dropzone" id="dropzone2">
-      <p class="dz-title">Kéo ảnh vào đây, hoặc bấm để chọn file</p>
-      <p class="dz-sub">Thả nhiều ảnh, dùng nhiều mẫu khác nhau cùng lúc cũng được</p>
-      <button class="dz-btn" id="pickBtn2" type="button">Chọn ảnh</button>
-      <input type="file" id="fileInput2" accept="image/*" multiple class="hidden">
-    </div>
-    <div class="thumbs2 hidden" id="thumbs2"></div>
-    <div id="activeEditorWrap"></div>
-
     <div class="batch-panel">
-      <button class="crop-reset" id="batchToggleBtn" type="button" style="margin-top:14px;">Hoặc nhập batch từ file CSV ▾</button>
+      <button class="crop-reset" id="batchToggleBtn" type="button">Hoặc nhập batch từ file CSV ▾</button>
       <div class="batch-body hidden" id="batchBody">
         <div class="field"><label>File CSV (ten_anh, ten_mau, ten_vi_tri, noi_dung)</label><input type="file" id="batchCsvInput" accept=".csv,text/csv"></div>
         <p class="crop-hint" id="batchFileInfo">Chưa chọn file.</p>
@@ -111,8 +123,26 @@
     </div>
   </section>
 
-  <!-- T2 STEP 3: EXPORT -->
+  </div>
+  <!-- end col-left -->
+
+  <div class="col-right">
+
+  <!-- T2 STEP 2: IMAGES + EDIT -->
   <section>
+    <p class="step-label">02 — Thêm ảnh & chèn text</p>
+    <div class="dropzone" id="dropzone2">
+      <p class="dz-title">Kéo ảnh vào đây, hoặc bấm để chọn file</p>
+      <p class="dz-sub">Thả nhiều ảnh, dùng nhiều mẫu khác nhau cùng lúc cũng được</p>
+      <button class="dz-btn" id="pickBtn2" type="button">Chọn ảnh</button>
+      <input type="file" id="fileInput2" accept="image/*" multiple class="hidden">
+    </div>
+    <div class="thumbs2 hidden" id="thumbs2"></div>
+    <div id="activeEditorWrap"></div>
+  </section>
+
+  <!-- T2 STEP 3: EXPORT -->
+  <section class="sticky-export">
     <p class="step-label">03 — Xuất file</p>
     <button class="export-btn" id="exportBtn2">Xuất tất cả ảnh</button>
     <p class="export-helper" id="exportHelper2"></p>
@@ -123,9 +153,17 @@
   </section>
 
   </div>
+  <!-- end col-right -->
+
+  </div>
+  <!-- end two-col -->
+  </div>
   <!-- end tab2view -->
 
   <div id="tab3view" class="tabview hidden">
+  <div class="two-col">
+
+  <div class="col-left">
 
   <!-- T3 STEP 1: IMAGES -->
   <section>
@@ -145,13 +183,23 @@
     <ul class="pdf-list hidden" id="pdfList"></ul>
   </section>
 
+  </div>
+  <!-- end col-left -->
+
+  <div class="col-right">
+
   <!-- T3 STEP 3: EXPORT -->
-  <section>
+  <section class="sticky-export">
     <p class="step-label">03 — Xuất PDF</p>
     <button class="export-btn" id="exportBtn3">Xuất file PDF</button>
     <p class="export-helper" id="exportHelper3"></p>
   </section>
 
+  </div>
+  <!-- end col-right -->
+
+  </div>
+  <!-- end two-col -->
   </div>
   <!-- end tab3view -->
 
@@ -231,6 +279,19 @@
     <div class="modal-actions">
       <button class="btn" id="modalCancel" type="button">Hủy</button>
       <button class="btn primary" id="modalSave" type="button">Lưu preset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT MODAL -->
+<div class="modal-overlay" id="aboutModalOverlay">
+  <div class="modal">
+    <h3>Về King Img</h3>
+    <p class="about-line">Phiên bản <b id="aboutVersionLabel">—</b></p>
+    <p class="about-line"><a href="#" id="aboutRepoLink">Xem trên GitHub</a></p>
+    <p class="about-line"><a href="#" id="aboutChangelogLink">Lịch sử cập nhật (CHANGELOG)</a></p>
+    <div class="modal-actions">
+      <button class="btn primary" id="aboutCloseBtn" type="button">Đóng</button>
     </div>
   </div>
 </div>

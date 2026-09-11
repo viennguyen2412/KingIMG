@@ -50,7 +50,10 @@
     addCustomFont: function(fileName, base64){ return hostApiPromise.then(function(api){ return api.AddCustomFont(fileName, base64); }); },
     listCustomFonts: function(){ return hostApiPromise.then(function(api){ return api.ListCustomFonts(); }); },
     chooseSavePdfFile: function(){ return hostApiPromise.then(function(api){ return api.ChooseSavePdfFile(); }); },
-    mergeImagesToPdf: function(imagesJson, outputPath){ return hostApiPromise.then(function(api){ return api.MergeImagesToPdf(imagesJson, outputPath); }); }
+    mergeImagesToPdf: function(imagesJson, outputPath){ return hostApiPromise.then(function(api){ return api.MergeImagesToPdf(imagesJson, outputPath); }); },
+    getAppVersion: function(){ return hostApiPromise.then(function(api){ return api.GetAppVersion(); }); },
+    checkForUpdate: function(){ return hostApiPromise.then(function(api){ return api.CheckForUpdateAsync(); }); },
+    openExternalUrl: function(url){ return hostApiPromise.then(function(api){ return api.OpenExternalUrl(url); }); }
   } : {
     isNative: false,
     writeRuntimeLog: function(){ return Promise.resolve(); },
@@ -76,7 +79,10 @@
     addCustomFont: function(){ return Promise.resolve(''); },
     listCustomFonts: function(){ return Promise.resolve('[]'); },
     chooseSavePdfFile: function(){ return Promise.resolve(''); },
-    mergeImagesToPdf: function(){ return Promise.resolve(false); }
+    mergeImagesToPdf: function(){ return Promise.resolve(false); },
+    getAppVersion: function(){ return Promise.resolve('0.0.0-dev'); },
+    checkForUpdate: function(){ return Promise.resolve('{"hasUpdate":false}'); },
+    openExternalUrl: function(url){ window.open(url, '_blank'); return Promise.resolve(); }
   });
 
   /* ---------------- utils ---------------- */
@@ -2718,6 +2724,47 @@
   }
 
   var initAppPromise = initApp();
+
+  /* ---- about / update check ---- */
+  (function(){
+    var aboutBtn = document.getElementById('aboutBtn');
+    var aboutOverlay = document.getElementById('aboutModalOverlay');
+    var aboutCloseBtn = document.getElementById('aboutCloseBtn');
+    var aboutRepoLink = document.getElementById('aboutRepoLink');
+    var aboutChangelogLink = document.getElementById('aboutChangelogLink');
+    var updateBanner = document.getElementById('updateBanner');
+    var updateVersionLabel = document.getElementById('updateVersionLabel');
+    var updateLink = document.getElementById('updateLink');
+    var updateDismissBtn = document.getElementById('updateDismissBtn');
+    var REPO_URL = 'https://github.com/viennguyen2412/KingIMG';
+
+    function openExternal(e, url){
+      e.preventDefault();
+      window.kingImg.openExternalUrl(url);
+    }
+
+    aboutBtn.addEventListener('click', function(){ aboutOverlay.classList.add('open'); });
+    aboutCloseBtn.addEventListener('click', function(){ aboutOverlay.classList.remove('open'); });
+    aboutOverlay.addEventListener('click', function(e){ if(e.target===aboutOverlay) aboutOverlay.classList.remove('open'); });
+    aboutRepoLink.addEventListener('click', function(e){ openExternal(e, REPO_URL); });
+    aboutChangelogLink.addEventListener('click', function(e){ openExternal(e, REPO_URL + '/blob/main/CHANGELOG.md'); });
+    updateDismissBtn.addEventListener('click', function(){ updateBanner.classList.add('hidden'); });
+
+    window.kingImg.getAppVersion().then(function(version){
+      document.getElementById('appVersionLabel').textContent = version;
+      document.getElementById('aboutVersionLabel').textContent = version;
+    });
+
+    window.kingImg.checkForUpdate().then(function(json){
+      var info = parseJsonSafe(json, { hasUpdate:false });
+      if(info && info.hasUpdate && info.latestVersion){
+        updateVersionLabel.textContent = 'v' + info.latestVersion;
+        var releaseUrl = info.url || REPO_URL + '/releases/latest';
+        updateLink.addEventListener('click', function(e){ openExternal(e, releaseUrl); });
+        updateBanner.classList.remove('hidden');
+      }
+    }).catch(function(){ /* offline or API unreachable — stay silent */ });
+  })();
   window.kingImgRunBatch = function(csvPath, packagePath){
     return initAppPromise.then(function(){ return runBatchFromPaths(csvPath, packagePath); }).then(function(){
       var result = { ok:true, outputFolder:lastExportFolder2 };

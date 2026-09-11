@@ -22,8 +22,8 @@ public sealed class MainForm : Form
         this.startupBatchCsvPath = startupBatchCsvPath;
         this.startupTemplatePackagePath = startupTemplatePackagePath;
         Text = "King Img";
-        MinimumSize = new Size(720, 680);
-        Size = new Size(880, 860);
+        MinimumSize = new Size(1000, 720);
+        Size = new Size(1100, 780);
         StartPosition = FormStartPosition.CenterScreen;
         BackColor = BackgroundColor;
         Controls.Add(webView);
@@ -182,7 +182,11 @@ public sealed record AppPaths(
             }
         }
 
-        return AppContext.BaseDirectory;
+        // Không thấy KingImg.portable.json ở đâu (bản cài qua installer): AppContext.BaseDirectory
+        // trỏ vào thư mục tự giải nén tạm của .NET single-file (đổi mỗi lần chạy vì
+        // IncludeAllContentForSelfExtract=true) — không dùng được để lưu dữ liệu lâu dài.
+        // processDirectory là thư mục thật chứa file .exe đã cài (ổn định, ghi được vì cài per-user).
+        return processDirectory ?? AppContext.BaseDirectory;
     }
 
     private static string? FindPortableRoot(string startPath)

@@ -2,7 +2,7 @@ namespace KingImg;
 
 internal static class StartupLog
 {
-    private static string LogPath => Path.Combine(AppPaths.PortableDataDir, "startup.log");
+    internal static string LogPath => Path.Combine(AppPaths.PortableDataDir, "startup.log");
 
     internal static void Write(string message, Exception? ex = null)
     {

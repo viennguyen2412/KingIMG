@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Drawing.Text;
 using System.IO.Compression;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
@@ -15,6 +16,7 @@ namespace KingImg;
 public sealed class KingImgApi
 {
     private const string TextTemplatePackageFormat = "kingimg-text-templates";
+    private const string GitHubReleasesLatestUrl = "https://api.github.com/repos/viennguyen2412/KingIMG/releases/latest";
 
     internal const string DefaultPresetsJson = """
     [
@@ -41,6 +43,41 @@ public sealed class KingImgApi
     public string LoadTemplates() => ReadJson(paths.TemplatesFile, "[]");
 
     public void SaveTemplates(string json) => WriteJson(paths.TemplatesFile, json);
+
+    public string GetAppVersion() => typeof(KingImgApi).Assembly.GetName().Version?.ToString(3) ?? "0.0.0";
+
+    public async Task<string> CheckForUpdateAsync()
+    {
+        try
+        {
+            using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+            http.DefaultRequestHeaders.UserAgent.ParseAdd("KingImg-UpdateCheck");
+            var json = await http.GetStringAsync(GitHubReleasesLatestUrl);
+            var release = JsonNode.Parse(json);
+            var tag = release?["tag_name"]?.GetValue<string>();
+            if (string.IsNullOrWhiteSpace(tag))
+            {
+                return """{"hasUpdate":false}""";
+            }
+
+            var latest = tag.TrimStart('v', 'V');
+            var hasUpdate = Version.TryParse(latest, out var latestVer)
+                && Version.TryParse(GetAppVersion(), out var currentVer)
+                && latestVer > currentVer;
+
+            var result = new JsonObject
+            {
+                ["hasUpdate"] = hasUpdate,
+                ["latestVersion"] = latest,
+                ["url"] = release?["html_url"]?.GetValue<string>() ?? $"https://github.com/viennguyen2412/KingIMG/releases/tag/{tag}"
+            };
+            return result.ToJsonString();
+        }
+        catch
+        {
+            return """{"hasUpdate":false}""";
+        }
+    }
 
     public string ExportTextTemplatePackage(string templatesJson)
     {
@@ -630,6 +667,14 @@ public sealed class KingImgApi
                 Arguments = path,
                 UseShellExecute = true
             });
+        }
+    }
+
+    public void OpenExternalUrl(string url)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            Process.Start(new ProcessStartInfo { FileName = uri.ToString(), UseShellExecute = true });
         }
     }
 
