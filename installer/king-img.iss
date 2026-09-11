@@ -4,7 +4,7 @@
 ;   "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" installer\king-img.iss
 
 #define MyAppName "King Img"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "Vien Nguyen"
 #define MyAppURL "https://github.com/viennguyen2412/KingIMG"
 #define MyAppExeName "KingImg.exe"

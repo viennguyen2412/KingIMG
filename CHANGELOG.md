@@ -5,7 +5,7 @@
 Bản đầu tiên, dùng nội bộ. Resize & xuất ảnh theo preset, chèn text theo mẫu vị trí dựng sẵn
 (kèm batch CSV), ghép ảnh thành PDF.
 
-## Chưa phát hành
+## 1.1.0 — 2026-09-11
 
 - Giao diện gói gọn trong 1 màn hình: bố cục 2 cột (thao tác trái / xem trước & xuất phải) +
   thanh xuất dính đáy, áp cho cả 3 tab.
