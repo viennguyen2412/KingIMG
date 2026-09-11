@@ -103,26 +103,6 @@
     <div id="templateEditorWrap" class="hidden"></div>
   </section>
 
-  <!-- T2 BATCH CSV -->
-  <section>
-    <div class="batch-panel">
-      <button class="crop-reset" id="batchToggleBtn" type="button">Hoặc nhập batch từ file CSV ▾</button>
-      <div class="batch-body hidden" id="batchBody">
-        <div class="field"><label>File CSV (ten_anh, ten_mau, ten_vi_tri, noi_dung)</label><input type="file" id="batchCsvInput" accept=".csv,text/csv"></div>
-        <p class="crop-hint" id="batchFileInfo">Chưa chọn file.</p>
-        <div class="batch-review hidden" id="batchReview"></div>
-        <div class="batch-editor hidden" id="batchEditor"></div>
-        <div class="batch-preview hidden" id="batchPreview"></div>
-        <div class="batch-actions">
-          <button class="btn primary" id="batchRunBtn" type="button" disabled>Chạy batch</button>
-          <button class="btn danger-ghost" id="batchOverwriteRunBtn" type="button" disabled>Chạy batch + lưu đè CSV</button>
-        </div>
-        <p class="batch-overwrite-hint">Nút lưu đè chỉ ghi CSV sau khi batch thành công và tạo bản backup `.csv.bak`.</p>
-        <div class="batch-status hidden" id="batchStatus"></div>
-      </div>
-    </div>
-  </section>
-
   </div>
   <!-- end col-left -->
 
@@ -157,6 +137,36 @@
 
   </div>
   <!-- end two-col -->
+
+  <!-- T2 BATCH CSV: hàng rộng hết 2 cột, không kẹt trong col-left -->
+  <section class="batch-section">
+    <div class="batch-panel">
+      <button class="crop-reset" id="batchToggleBtn" type="button">Hoặc nhập batch từ file CSV ▾</button>
+      <div class="batch-body hidden" id="batchBody">
+        <div class="batch-top">
+          <div class="batch-file">
+            <div class="field"><label>File CSV (ten_anh, ten_mau, ten_vi_tri, noi_dung)</label><input type="file" id="batchCsvInput" accept=".csv,text/csv"></div>
+            <p class="crop-hint" id="batchFileInfo">Chưa chọn file.</p>
+          </div>
+          <div class="batch-run">
+            <div class="batch-actions">
+              <button class="btn primary" id="batchRunBtn" type="button" disabled>Chạy batch</button>
+              <button class="btn danger-ghost" id="batchOverwriteRunBtn" type="button" disabled>Chạy batch + lưu đè CSV</button>
+            </div>
+            <p class="batch-overwrite-hint">Nút lưu đè chỉ ghi CSV sau khi batch thành công và tạo bản backup `.csv.bak`.</p>
+          </div>
+        </div>
+        <div class="batch-status hidden" id="batchStatus"></div>
+        <div class="batch-workspace">
+          <div class="batch-main">
+            <div class="batch-review hidden" id="batchReview"></div>
+            <div class="batch-editor hidden" id="batchEditor"></div>
+          </div>
+          <div class="batch-preview hidden" id="batchPreview"></div>
+        </div>
+      </div>
+    </div>
+  </section>
   </div>
   <!-- end tab2view -->
 

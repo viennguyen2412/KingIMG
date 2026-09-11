@@ -24,3 +24,12 @@ Bản đầu tiên, dùng nội bộ. Resize & xuất ảnh theo preset, chèn t
 
 - Banner báo bản mới: bấm "Tải bản mới" giờ tải thẳng file cài đặt, không còn mở qua trang
   Release trên GitHub nữa.
+
+## 1.1.3 — 2026-09-11
+
+- Khối "Nhập batch từ file CSV" ở tab Chèn Text không còn kéo dài trang khi đã nạp CSV: khối
+  batch giờ trải rộng hết 2 cột (dưới phần mẫu và phần thêm ảnh), bảng CSV + khung chỉnh nội
+  dung nằm bên trái, preview trang nằm bên phải, cả khung cao vừa cửa sổ và mỗi phần tự cuộn
+  riêng.
+- Bảng CSV hết phải cuộn ngang; tên ảnh/vị trí giữ trên 1 dòng, nội dung rút gọn còn 2 dòng.
+- Nút "Chạy batch" và thông báo trạng thái chuyển lên đầu khối batch, ngay cạnh ô chọn file.
