@@ -14,3 +14,8 @@ Bản đầu tiên, dùng nội bộ. Resize & xuất ảnh theo preset, chèn t
 - Hộp thoại lỗi thân thiện hơn khi app gặp sự cố, kèm đường dẫn log.
 - Metadata publisher (Company/Product/Copyright) cho file .exe.
 - Installer Inno Setup, cài per-user, không cần quyền admin.
+
+## 1.1.1 — 2026-09-11
+
+- Sửa lỗi 3 nút ở "01 — Quản lý mẫu chèn text" (Xuất preset/Nhập preset/Xuất danh sách mẫu)
+  dính sát nhau khi xuống dòng ở cột trái hẹp — thêm `flex-wrap` + khoảng cách dòng.

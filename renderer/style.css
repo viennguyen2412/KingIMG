@@ -213,7 +213,7 @@
   .sub-block{margin-top:12px;padding:10px;background:var(--surface-2);border:1px solid var(--border-soft);border-radius:8px;}
   .sub-fields{margin-top:10px;}
   .sub-fields.hidden{display:none;}
-  .step-actions-row{margin-bottom:12px;}
+  .step-actions-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
   .batch-panel{margin-top:14px;}
   .batch-body{margin-top:10px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);}
   .batch-body.hidden{display:none;}
