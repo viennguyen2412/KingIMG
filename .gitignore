@@ -10,3 +10,9 @@ node_modules/
 dist/
 installer/Output/
 
+# Bản sao renderer/fonts-bundled tự giải nén từ resource nhúng lúc chạy app — không phải
+# source, luôn đồng bộ lại từ renderer/ và fonts-bundled/ ở gốc repo.
+Data/web/
+# Profile trình duyệt WebView2 (cache, crashpad, IndexedDB...) — đổi liên tục mỗi lần mở app.
+Data/WebView2/
+
